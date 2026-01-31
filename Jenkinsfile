@@ -88,13 +88,10 @@ pipeline {
             }
         }
         
-        stage('Deploy to Container') {
+        stage('Deploy Helm Chart') {
             steps {
                 script {
-                    // Remove the existing container if it exists
-                    sh 'docker rm -f netflix || true'
-                    // Run the new container
-                    sh 'docker run -d --name netflix -p 8081:80 oussama132/netflix-app:latest'
+                    sh 'helm upgrade -i netflix ./helm'
                 }
             }
         }
