@@ -26,20 +26,6 @@ pipeline {
             }
         }
 
-        /*
-        stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('sonar-server') {
-                    sh '''
-                    $SCANNER_HOME/bin/sonar-scanner \
-                    -Dsonar.projectName=Netflix \
-                    -Dsonar.projectKey=Netflix
-                    '''
-                }
-            }
-        }
-        */
-
         stage('Quality Gate') {
             steps {
                 echo "SonarQube quality gate check done"
@@ -69,7 +55,7 @@ pipeline {
 
         stage('Docker Build & Push') {
             steps {
-                withDockerRegistry(credentialsId: 'dockerhub-credentials', toolName: 'docker') {
+                withDockerRegistry(credentialsId: 'dockerhub-credentials') {
                     sh '''
                     docker build --build-arg TMDB_V3_API_KEY=bc921e8074b0cd1bb04fba36ca56b7d6 -t netflix-app .
                     docker tag netflix-app oussama132/netflix-app:latest
