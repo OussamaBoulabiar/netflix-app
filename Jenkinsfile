@@ -90,12 +90,12 @@ pipeline {
         
         stage('Deploy Helm Chart') {
             steps {
-                script {
-                    sh '''
-                    export KUBECONFIG=$KUBECONFIG_FILE
-                    helm upgrade -i netflix ./helm
-                    '''
-                }
+                 withCredentials([file(credentialsId: 'kind-kubeconfig', variable: 'KUBECONFIG_FILE')]) {
+            sh '''
+            export KUBECONFIG=$KUBECONFIG_FILE
+            kubectl get nodes
+            helm upgrade -i netflix ./helm --namespace netflix --create-namespace
+            '''
             }
         }
     }
