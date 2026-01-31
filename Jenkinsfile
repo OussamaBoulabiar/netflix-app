@@ -60,13 +60,25 @@ stage('OWASP Dependency Scan') {
     steps {
         dir('path/to/your/app') {
             sh '''
+            # Make sure output directory exists
+            mkdir -p dependency-check-report
+
+            # Run OWASP Dependency-Check with quoted paths
             docker run --rm -v "$(pwd)":/src owasp/dependency-check:latest \
-              --project "Netflix App" --scan /src --format ALL --out /src/dependency-check-report
-            cat /src/dependency-check-report/dependency-check-report.html
+              --project "Netflix App" \
+              --scan /src \
+              --format ALL \
+              --out /src/dependency-check-report
+
+            # Print the HTML report path in Jenkins console
+            echo "===== OWASP Dependency-Check Report ====="
+            cat dependency-check-report/dependency-check-report.html || echo "HTML report cannot be printed in console"
+            echo "========================================"
             '''
         }
     }
 }
+
 
         stage('OWASP FS Scan') {
             steps {
