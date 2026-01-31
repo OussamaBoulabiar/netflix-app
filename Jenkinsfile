@@ -63,6 +63,7 @@ pipeline {
         stage('Trivy FS Scan') {
             steps {
                 sh 'trivy fs . > trivyfs.txt'
+                sh 'cat trivyfs.txt'
             }
         }
         
@@ -83,6 +84,7 @@ pipeline {
         stage('Trivy Image Scan') {
             steps {
                 sh 'trivy image oussama132/netflix-app:latest > trivyimage.txt'
+                sh 'cat trivyimage.txt'
             }
         }
         
