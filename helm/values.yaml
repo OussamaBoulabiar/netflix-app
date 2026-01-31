@@ -1,0 +1,16 @@
+replicaCount: 2
+
+image:
+  repository: oussama132/netflix-app
+  tag: latest
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 80
+
+container:
+  port: 80
+
+resources: {}
