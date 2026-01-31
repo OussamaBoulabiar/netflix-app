@@ -91,7 +91,10 @@ pipeline {
         stage('Deploy Helm Chart') {
             steps {
                 script {
-                    sh 'helm upgrade -i netflix ./helm'
+                    sh '''
+                    export KUBECONFIG=$KUBECONFIG_FILE
+                    helm upgrade -i netflix ./helm
+                    '''
                 }
             }
         }
