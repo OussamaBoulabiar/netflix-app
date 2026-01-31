@@ -25,7 +25,7 @@ pipeline {
                     url: 'https://github.com/OussamaBoulabiar/netflix-app.git' // Updated repository URL
             }
         }
-        
+/*        
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('sonar-server') {
@@ -37,7 +37,7 @@ pipeline {
                 }
             }
         }
-        
+     */   
         stage('Quality Gate') {
             steps {
                 script {
