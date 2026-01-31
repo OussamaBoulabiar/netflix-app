@@ -54,21 +54,25 @@ pipeline {
             }
         }
                 
+
+
+stage('OWASP Dependency Scan') {
+    steps {
+        dir('path/to/your/app') {
+            sh '''
+            docker run --rm -v "$(pwd)":/src owasp/dependency-check:latest \
+              --project "Netflix App" --scan /src --format ALL --out /src/dependency-check-report
+            cat /src/dependency-check-report/dependency-check-report.html
+            '''
+        }
+    }
+}
+
         stage('OWASP FS Scan') {
             steps {
                 echo "OWASP dependency check completed"
             }
         }
-
-stage('OWASP Dependency Scan') {
-    steps {
-        sh '''
-        docker run --rm -v $(pwd):/src owasp/dependency-check:latest \
-          --project "Netflix App" --scan /src --format ALL --out /src/dependency-check-report
-        '''
-    }
-}
-
         
         stage('Trivy FS Scan') {
             steps {
